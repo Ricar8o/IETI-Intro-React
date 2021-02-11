@@ -1,12 +1,26 @@
 import React from 'react';
 import TodoList from './TodoList';
 
-let today = new Date();
-let dateString = today.getFullYear() + '-' + today.getMonth() + 1 + '-' + today.getDate();
+function formatDate(date) {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
+let today = formatDate( new Date());
+
 export class TodoApp extends React.Component {
     constructor(props) {
       super(props);
-      this.state = { items: [], text: '', priority: 0 , dueDate: new Date()};
+      this.state = { items: [], text: '', priority: 0 , dueDate: today};
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
 
@@ -60,7 +74,7 @@ export class TodoApp extends React.Component {
                 onChange={this.handleChangeDate}
                 value={this.state.dueDate}
                 type = "date"
-                min= {dateString} 
+                min= {today}
               />
             </div>
             
